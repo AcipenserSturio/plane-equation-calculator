@@ -23,6 +23,6 @@ function calc() {
 	var d = -(x1 * x + y1 * y + z1 * z);
 	
 	// Display
-	document.getElementById("res1").innerHTML = "<p>При A(" + x1 + "; " + y1 + "; " + z1 + "), B(" + x2 + "; " + y2 + "; " + z2 + "), C(" + x3 + "; " + y3 + "; " + z3 + "):</p>";
+	document.getElementById("res1").innerHTML = "<p>При A(" + x1 + ";&nbsp;" + y1 + ";&nbsp;" + z1 + "), B(" + x2 + ";&nbsp;" + y2 + ";&nbsp;" + z2 + "), C(" + x3 + ";&nbsp;" + y3 + ";&nbsp;" + z3 + "):</p>";
 	document.getElementById("res2").innerHTML = "<p>" + x + "x + " + y + "y + " + z + "z + " + d + " = 0</p>";
 }
