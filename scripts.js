@@ -1,3 +1,28 @@
+class Root {
+	constructor(sign, whole, irr) {
+		this.sign = sign;
+		this.whole = whole;
+		this.irr = irr;
+	}
+	toString() {
+		if (this.irr == 1) {
+			return this.sign + this.whole;
+		} else if (this.whole == 1) {
+			return this.sign + "√" + this.irr;
+		} else {
+			return this.sign + this.whole + "√" + this.irr;
+		}
+	}
+	getSign() {
+		if (this.sign == "") {
+			return "&nbsp;+&nbsp;";
+		} else {
+			return "&nbsp;-&nbsp;";
+		}
+	}
+}
+
+
 function ipa(sound) {
     var path = "mp3\\";
     var snd = new Audio(path + sound + ".mp3");
@@ -23,6 +48,36 @@ function rootChar(a) {
 		return ""; 
 	}
 }
+
+function rootOrNumber(a, isRoot) {
+	if(isRoot) {
+		return toRoot(a);
+	} else {
+		var sign = "";
+		if (a < 0) {
+			sign = "-"
+		}
+		return new Root(sign, Math.abs(a), 1);
+	}
+}
+
+function toRoot(a) {
+	var sign = "";
+	if (a < 0) {
+		sign = "-";
+	}
+	a = Math.abs(a);
+	if (a == 0) {
+		return "0";
+	} else {
+		for (var i = Math.ceil(Math.sqrt(a)); i > 0; i--) {
+			if (a % (i*i) == 0) {
+				return new Root(sign, i, a / (i*i));
+			}
+		}
+	}
+}
+
 function calc() {
 	// Get input from HTML
 	var x1 = Number(document.getElementById("n1").value);
@@ -45,7 +100,83 @@ function calc() {
 	var y3_root = document.getElementById("r8").checked;
 	var z3_root = document.getElementById("r9").checked;
 	
+	var a_pt = "A(" 
+	+ rootOrNumber(x1, x1_root).toString() + ";&nbsp;" 
+	+ rootOrNumber(y1, y1_root).toString() + ";&nbsp;" 
+	+ rootOrNumber(z1, z1_root).toString() + ")";
+	var b_pt = "B(" 
+	+ rootOrNumber(x2, x2_root).toString() + ";&nbsp;" 
+	+ rootOrNumber(y2, y2_root).toString() + ";&nbsp;" 
+	+ rootOrNumber(z2, z2_root).toString() + ")";
+	var c_pt = "C(" 
+	+ rootOrNumber(x3, x3_root).toString() + ";&nbsp;" 
+	+ rootOrNumber(y3, y3_root).toString() + ";&nbsp;" 
+	+ rootOrNumber(z3, z3_root).toString() + ")";
 	
+	document.getElementById("res1").innerHTML = "<p>При " + a_pt + ", " + b_pt + ", " + c_pt + ":</p>";
+	document.getElementById("res1").innerHTML = "<p>"
+	+ "(("
+	+ rootOrNumber(y2, y2_root).toString()
+	+ rootOrNumber(-y1, y1_root).getSign()
+	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
+	+ ")(" 
+	+ rootOrNumber(z3, z3_root).toString()
+	+ rootOrNumber(-z1, z1_root).getSign()
+	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
+	+ ") - (" 
+	+ rootOrNumber(z2, z2_root).toString()
+	+ rootOrNumber(-z1, z1_root).getSign()
+	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
+	+ ")(" 
+	+ rootOrNumber(y3, y3_root).toString()
+	+ rootOrNumber(-y1, y1_root).getSign()
+	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
+	+ "))(x"
+	+ rootOrNumber(-x1, x1_root).getSign()
+	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
+	+ ") +<br />+ " 
+	+ "(("
+	+ rootOrNumber(z2, z2_root).toString()
+	+ rootOrNumber(-z1, z1_root).getSign()
+	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
+	+ ")(" 
+	+ rootOrNumber(x3, x3_root).toString()
+	+ rootOrNumber(-x1, x1_root).getSign()
+	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
+	+ ") - (" 
+	+ rootOrNumber(x2, x2_root).toString()
+	+ rootOrNumber(-x1, x1_root).getSign()
+	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
+	+ ")(" 
+	+ rootOrNumber(z3, z3_root).toString()
+	+ rootOrNumber(-z1, z1_root).getSign()
+	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
+	+ "))(y"
+	+ rootOrNumber(-y1, y1_root).getSign()
+	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
+	+ ") +<br />+ " 
+	+ "(("
+	+ rootOrNumber(x2, x2_root).toString()
+	+ rootOrNumber(-x1, x1_root).getSign()
+	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
+	+ ")(" 
+	+ rootOrNumber(y3, y3_root).toString()
+	+ rootOrNumber(-y1, y1_root).getSign()
+	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
+	+ ") - (" 
+	+ rootOrNumber(y2, y2_root).toString()
+	+ rootOrNumber(-y1, y1_root).getSign()
+	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
+	+ ")(" 
+	+ rootOrNumber(x3, x3_root).toString()
+	+ rootOrNumber(-x1, x1_root).getSign()
+	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
+	+ "))(z"
+	+ rootOrNumber(-z1, z1_root).getSign()
+	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
+	+ ")" 
+	+ " = 0</p>";
+	/*
 	// Calculate some cool and new values
 	var x = (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1);
 	var y = (z2 - z1) * (x3 - x1) - (x2 - x1) * (z3 - z1); // Not reversed!
@@ -165,4 +296,5 @@ function calc() {
 	// Display
 	document.getElementById("res1").innerHTML = "<p>При " + a_pt + ", " + b_pt + ", " + c_pt + ":</p>";
 	document.getElementById("res2").innerHTML = "<p>" + output_string + " = 0</p>";
+	*/
 }
