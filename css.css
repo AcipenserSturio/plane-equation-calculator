@@ -13,9 +13,9 @@ input[type="number"] {
   width: 15%;
 }
 input[type="checkbox"] {
-  /* Double-sized Checkboxes */
-  transform: scale(3) translateY(-1px);
-  margin: 10px 10px 10px 10px;
+  transform: scale(3);
+  margin: 10px;
+  vertical-align: middle;
 }
 body {
   font-family: Verdana, "Lucida Sans Unicode", sans-serif;
