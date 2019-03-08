@@ -6,9 +6,16 @@ table, td {
   font-size: 30px;
 }
 input {
-  width: 15%;
   text-align: center;
   font-size: 100%;
+}
+input[type="number"] {
+  width: 15%;
+}
+input[type="checkbox"] {
+  /* Double-sized Checkboxes */
+  transform: scale(3) translateY(-1px);
+  margin: 10px 10px 10px 10px;
 }
 body {
   font-family: Verdana, "Lucida Sans Unicode", sans-serif;

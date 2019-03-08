@@ -16,6 +16,13 @@ function gcd_rec(a, b) {
 	}
 }
 
+function rootChar(a) {
+	if (a) {
+		return "√";
+	} else {
+		return ""; 
+	}
+}
 function calc() {
 	// Get input from HTML
 	var x1 = Number(document.getElementById("n1").value);
@@ -27,6 +34,17 @@ function calc() {
 	var x3 = Number(document.getElementById("n7").value);
 	var y3 = Number(document.getElementById("n8").value);
 	var z3 = Number(document.getElementById("n9").value);
+	
+	var x1_root = document.getElementById("r1").checked;
+	var y1_root = document.getElementById("r2").checked;
+	var z1_root = document.getElementById("r3").checked;
+	var x2_root = document.getElementById("r4").checked;
+	var y2_root = document.getElementById("r5").checked;
+	var z2_root = document.getElementById("r6").checked;
+	var x3_root = document.getElementById("r7").checked;
+	var y3_root = document.getElementById("r8").checked;
+	var z3_root = document.getElementById("r9").checked;
+	
 	
 	// Calculate some cool and new values
 	var x = (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1);
@@ -52,9 +70,9 @@ function calc() {
 	}
 	
 	// Point coordinates in proper string form
-	var a_pt = "A(" + x1 + ";&nbsp;" + y1 + ";&nbsp;" + z1 + ")";
-	var b_pt = "B(" + x2 + ";&nbsp;" + y2 + ";&nbsp;" + z2 + ")";
-	var c_pt = "C(" + x3 + ";&nbsp;" + y3 + ";&nbsp;" + z3 + ")";
+	var a_pt = "A(" + rootChar(x1_root) + x1 + ";&nbsp;" + rootChar(y1_root) + y1 + ";&nbsp;" + rootChar(z1_root) + z1 + ")";
+	var b_pt = "B(" + rootChar(x2_root) + x2 + ";&nbsp;" + rootChar(y2_root) + y2 + ";&nbsp;" + rootChar(z2_root) + z2 + ")";
+	var c_pt = "C(" + rootChar(x3_root) + x3 + ";&nbsp;" + rootChar(y3_root) + y3 + ";&nbsp;" + rootChar(z3_root) + z3 + ")";
 
 	// Making the line with the equation
 	var x_output;
