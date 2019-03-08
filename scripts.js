@@ -4,20 +4,38 @@ class Root {
 		this.whole = whole;
 		this.irr = irr;
 	}
-	toString() {
-		if (this.irr == 1) {
-			return this.sign + this.whole;
-		} else if (this.whole == 1) {
-			return this.sign + "√" + this.irr;
+	toString(noSign) {
+		if (noSign) {
+			if (this.irr == 1) {
+				return this.whole;
+			} else if (this.whole == 1) {
+				return "√" + this.irr;
+			} else {
+				return this.whole + "√" + this.irr;
+			}
 		} else {
-			return this.sign + this.whole + "√" + this.irr;
+			if (this.irr == 1) {
+				return this.sign + this.whole;
+			} else if (this.whole == 1) {
+				return this.sign + "√" + this.irr;
+			} else {
+				return this.sign + this.whole + "√" + this.irr;
+			}
 		}
 	}
-	getSign() {
-		if (this.sign == "") {
-			return "&nbsp;+&nbsp;";
+	getSign(reverse) {
+		if (reverse) {
+			if (this.sign == "") {
+				return "&nbsp;-&nbsp;";
+			} else {
+				return "&nbsp;+&nbsp;";
+			}
 		} else {
-			return "&nbsp;-&nbsp;";
+			if (this.sign == "") {
+				return "&nbsp;+&nbsp;";
+			} else {
+				return "&nbsp;-&nbsp;";
+			}
 		}
 	}
 }
@@ -68,7 +86,7 @@ function toRoot(a) {
 	}
 	a = Math.abs(a);
 	if (a == 0) {
-		return "0";
+		return new Root("", 0, 1);
 	} else {
 		for (var i = Math.ceil(Math.sqrt(a)); i > 0; i--) {
 			if (a % (i*i) == 0) {
@@ -100,81 +118,49 @@ function calc() {
 	var y3_root = document.getElementById("r8").checked;
 	var z3_root = document.getElementById("r9").checked;
 	
+	var x1_obj = rootOrNumber(x1, x1_root);
+	var y1_obj = rootOrNumber(y1, y1_root);
+	var z1_obj = rootOrNumber(z1, z1_root);
+	var x2_obj = rootOrNumber(x2, x2_root);
+	var y2_obj = rootOrNumber(y2, y2_root);
+	var z2_obj = rootOrNumber(z2, z2_root);
+	var x3_obj = rootOrNumber(x3, x3_root);
+	var y3_obj = rootOrNumber(y3, y3_root);
+	var z3_obj = rootOrNumber(z3, z3_root);
+	
 	var a_pt = "A(" 
-	+ rootOrNumber(x1, x1_root).toString() + ";&nbsp;" 
-	+ rootOrNumber(y1, y1_root).toString() + ";&nbsp;" 
-	+ rootOrNumber(z1, z1_root).toString() + ")";
+	+ x1_obj.toString() + ";&nbsp;" 
+	+ y1_obj.toString() + ";&nbsp;" 
+	+ z1_obj.toString() + ")";
 	var b_pt = "B(" 
-	+ rootOrNumber(x2, x2_root).toString() + ";&nbsp;" 
-	+ rootOrNumber(y2, y2_root).toString() + ";&nbsp;" 
-	+ rootOrNumber(z2, z2_root).toString() + ")";
+	+ x2_obj.toString() + ";&nbsp;" 
+	+ y2_obj.toString() + ";&nbsp;" 
+	+ z2_obj.toString() + ")";
 	var c_pt = "C(" 
-	+ rootOrNumber(x3, x3_root).toString() + ";&nbsp;" 
-	+ rootOrNumber(y3, y3_root).toString() + ";&nbsp;" 
-	+ rootOrNumber(z3, z3_root).toString() + ")";
+	+ x3_obj.toString() + ";&nbsp;" 
+	+ y3_obj.toString() + ";&nbsp;" 
+	+ z3_obj.toString() + ")";
 	
 	document.getElementById("res1").innerHTML = "<p>При " + a_pt + ", " + b_pt + ", " + c_pt + ":</p>";
 	document.getElementById("res1").innerHTML = "<p>"
 	+ "(("
-	+ rootOrNumber(y2, y2_root).toString()
-	+ rootOrNumber(-y1, y1_root).getSign()
-	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
-	+ ")(" 
-	+ rootOrNumber(z3, z3_root).toString()
-	+ rootOrNumber(-z1, z1_root).getSign()
-	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
-	+ ") - (" 
-	+ rootOrNumber(z2, z2_root).toString()
-	+ rootOrNumber(-z1, z1_root).getSign()
-	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
-	+ ")(" 
-	+ rootOrNumber(y3, y3_root).toString()
-	+ rootOrNumber(-y1, y1_root).getSign()
-	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
-	+ "))(x"
-	+ rootOrNumber(-x1, x1_root).getSign()
-	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
-	+ ") +<br />+ " 
-	+ "(("
-	+ rootOrNumber(z2, z2_root).toString()
-	+ rootOrNumber(-z1, z1_root).getSign()
-	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
-	+ ")(" 
-	+ rootOrNumber(x3, x3_root).toString()
-	+ rootOrNumber(-x1, x1_root).getSign()
-	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
-	+ ") - (" 
-	+ rootOrNumber(x2, x2_root).toString()
-	+ rootOrNumber(-x1, x1_root).getSign()
-	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
-	+ ")(" 
-	+ rootOrNumber(z3, z3_root).toString()
-	+ rootOrNumber(-z1, z1_root).getSign()
-	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
-	+ "))(y"
-	+ rootOrNumber(-y1, y1_root).getSign()
-	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
-	+ ") +<br />+ " 
-	+ "(("
-	+ rootOrNumber(x2, x2_root).toString()
-	+ rootOrNumber(-x1, x1_root).getSign()
-	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
-	+ ")(" 
-	+ rootOrNumber(y3, y3_root).toString()
-	+ rootOrNumber(-y1, y1_root).getSign()
-	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
-	+ ") - (" 
-	+ rootOrNumber(y2, y2_root).toString()
-	+ rootOrNumber(-y1, y1_root).getSign()
-	+ rootOrNumber(Math.abs(-y1), y1_root).toString()
-	+ ")(" 
-	+ rootOrNumber(x3, x3_root).toString()
-	+ rootOrNumber(-x1, x1_root).getSign()
-	+ rootOrNumber(Math.abs(-x1), x1_root).toString()
-	+ "))(z"
-	+ rootOrNumber(-z1, z1_root).getSign()
-	+ rootOrNumber(Math.abs(-z1), z1_root).toString()
-	+ ")" 
+	+ y2_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ")(" 
+	+ z3_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ") - (" 
+	+ z2_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ")(" 
+	+ y3_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + "))(x"
+	+ x1_obj.getSign(true) + x1_obj.toString(true) 
+	+ ") +<br />+ " + "(("
+	+ z2_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ")(" 
+	+ x3_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + ") - (" 
+	+ x2_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + ")(" 
+	+ z3_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + "))(y"
+	+ y1_obj.getSign(true) + y1_obj.toString(true)
+	+ ") +<br />+ " + "(("
+	+ x2_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + ")(" 
+	+ y3_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ") - (" 
+	+ y2_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ")(" 
+	+ x3_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + "))(z"
+	+ z1_obj.getSign(true) + z1_obj.toString(true) + ")" 
 	+ " = 0</p>";
 	/*
 	// Calculate some cool and new values
