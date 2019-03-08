@@ -3,6 +3,19 @@ function ipa(sound) {
     var snd = new Audio(path + sound + ".mp3");
     snd.play();
 }
+
+function gcd_rec(a, b) {
+	if (a != 0 && b != 0) {
+		if (b) {
+			return gcd_rec(b, a % b);
+		} else {
+			return Math.abs(a);
+		}
+	} else {
+		return a + b; // One of them is 0
+	}
+}
+
 function calc() {
 	// Get input from HTML
 	var x1 = Number(document.getElementById("n1").value);
@@ -21,6 +34,23 @@ function calc() {
 	var z = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
 	var d = -(x1 * x + y1 * y + z1 * z);
 	
+	// I don't like starting with a minus
+	if (x < 0 || x == 0 && y < 0 || x == 0 && y == 0 && z < 0 || x == 0 && y == 0 && z == 0 && d < 0) {
+		x = -x;
+		y = -y;
+		z = -z;
+		d = -d;
+	}
+	
+	// Let's see if any simplification has to take place
+	var gcd = Math.abs(gcd_rec(gcd_rec(x,y), gcd_rec(z,d)));
+	if (gcd != 1 && gcd != 0) {
+		x = x/gcd;
+		y = y/gcd;
+		z = z/gcd;
+		d = d/gcd;
+	}
+	
 	// Point coordinates in proper string form
 	var a_pt = "A(" + x1 + ";&nbsp;" + y1 + ";&nbsp;" + z1 + ")";
 	var b_pt = "B(" + x2 + ";&nbsp;" + y2 + ";&nbsp;" + z2 + ")";
@@ -30,7 +60,7 @@ function calc() {
 	var x_output;
 	if (x == 0) {
 		x_output = "";
-	} else if (x == 1) {
+	} else if (x == 1 || x == -1) {
 		x_output = "x";
 	} else if (x < 0) {
 		x_output = -x + "x";
@@ -41,7 +71,7 @@ function calc() {
 	var y_output;
 	if (y == 0) {
 		y_output = "";
-	} else if (y == 1) {
+	} else if (y == 1 || y == -1) {
 		y_output = "y";
 	} else if (y < 0) {
 		y_output = -y + "y";
@@ -52,7 +82,7 @@ function calc() {
 	var z_output;
 	if (z == 0) {
 		z_output = "";
-	} else if (z == 1) {
+	} else if (z == 1 || z == -1) {
 		z_output = "z";
 	} else if (z < 0) {
 		z_output = -z + "z";
