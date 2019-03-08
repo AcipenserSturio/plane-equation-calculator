@@ -3,6 +3,11 @@ class Root {
 		this.sign = sign;
 		this.whole = whole;
 		this.irr = irr;
+		if (sign == "") {
+			this.raw = whole*whole*irr;
+		} else {
+			this.raw = -whole*whole*irr;
+		}
 	}
 	toString(noSign) {
 		if (noSign) {
@@ -40,11 +45,17 @@ class Root {
 	}
 }
 
+function multiply(a, b) {
+	return toRoot(a.raw * b.raw);
+}
 
-function ipa(sound) {
-    var path = "mp3\\";
-    var snd = new Audio(path + sound + ".mp3");
-    snd.play();
+function swapSign(a) {
+	if (a.sign == "") {
+		a.sign = "-";
+	} else {
+		a.sign = "";
+	}
+	return a;
 }
 
 function gcd_rec(a, b) {
@@ -56,14 +67,6 @@ function gcd_rec(a, b) {
 		}
 	} else {
 		return a + b; // One of them is 0
-	}
-}
-
-function rootChar(a) {
-	if (a) {
-		return "√";
-	} else {
-		return ""; 
 	}
 }
 
@@ -142,7 +145,7 @@ function calc() {
 	+ z3_obj.toString() + ")";
 	
 	document.getElementById("res1").innerHTML = "<p>При " + a_pt + ", " + b_pt + ", " + c_pt + ":</p>";
-	document.getElementById("res1").innerHTML = "<p>"
+	document.getElementById("res2").innerHTML = "<p>"
 	+ "(("
 	+ y2_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ")(" 
 	+ z3_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ") - (" 
@@ -162,6 +165,123 @@ function calc() {
 	+ x3_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + "))(z"
 	+ z1_obj.getSign(true) + z1_obj.toString(true) + ")" 
 	+ " = 0</p>";
+	
+	var y2z3 = multiply(y2_obj, z3_obj);
+	var y1z3 = multiply(y1_obj, z3_obj);
+	var y2z1 = multiply(y2_obj, z1_obj);
+	var y1z1 = multiply(y1_obj, z1_obj);
+	var z2y3 = multiply(z2_obj, y3_obj);
+	var z1y3 = multiply(z1_obj, y3_obj);
+	var z2y1 = multiply(z2_obj, y1_obj);
+	var z1y1 = multiply(z1_obj, y1_obj);
+	
+	var z2x3 = multiply(z2_obj, x3_obj);
+	var z1x3 = multiply(z1_obj, x3_obj);
+	var z2x1 = multiply(z2_obj, x1_obj);
+	var z1x1 = multiply(z1_obj, x1_obj);
+	var x2z3 = multiply(x2_obj, z3_obj);
+	var x1z3 = multiply(x1_obj, z3_obj);
+	var x2z1 = multiply(x2_obj, z1_obj);
+	var x1z1 = multiply(x1_obj, z1_obj);
+	
+	var x2y3 = multiply(x2_obj, y3_obj);
+	var x1y3 = multiply(x1_obj, y3_obj);
+	var x2y1 = multiply(x2_obj, y1_obj);
+	var x1y1 = multiply(x1_obj, y1_obj);
+	var y2x3 = multiply(y2_obj, x3_obj);
+	var y1x3 = multiply(y1_obj, x3_obj);
+	var y2x1 = multiply(y2_obj, x1_obj);
+	var y1x1 = multiply(y1_obj, x1_obj);
+	
+	var y2z3x1 = multiply(y2z3, x1_obj);
+	var y1z3x1 = multiply(y1z3, x1_obj);
+	var y2z1x1 = multiply(y2z1, x1_obj);
+	var y1z1x1 = multiply(y1z1, x1_obj);
+	var z2y3x1 = multiply(z2y3, x1_obj);
+	var z1y3x1 = multiply(z1y3, x1_obj);
+	var z2y1x1 = multiply(z2y1, x1_obj);
+	var z1y1x1 = multiply(z1y1, x1_obj);
+	
+	var z2x3y1 = multiply(z2x3, y1_obj);
+	var z1x3y1 = multiply(z1x3, y1_obj);
+	var z2x1y1 = multiply(z2x1, y1_obj);
+	var z1x1y1 = multiply(z1x1, y1_obj);
+	var x2z3y1 = multiply(x2z3, y1_obj);
+	var x1z3y1 = multiply(x1z3, y1_obj);
+	var x2z1y1 = multiply(x2z1, y1_obj);
+	var x1z1y1 = multiply(x1z1, y1_obj);
+	
+	var x2y3z1 = multiply(x2y3, z1_obj);
+	var x1y3z1 = multiply(x1y3, z1_obj);
+	var x2y1z1 = multiply(x2y1, z1_obj);
+	var x1y1z1 = multiply(x1y1, z1_obj);
+	var y2x3z1 = multiply(y2x3, z1_obj);
+	var y1x3z1 = multiply(y1x3, z1_obj);
+	var y2x1z1 = multiply(y2x1, z1_obj);
+	var y1x1z1 = multiply(y1x1, z1_obj);
+	
+	document.getElementById("res3").innerHTML = "<p>"
+	+ "("
+	+ y2z3.toString()
+	+ y1z3.getSign(true) + y1z3.toString(true)
+	+ y2z1.getSign(true) + y2z1.toString(true)
+	+ y1z1.getSign()     + y1z1.toString(true)
+	+ z2y3.getSign(true) + z2y3.toString(true)
+	+ z1y3.getSign()     + z1y3.toString(true)
+	+ z2y1.getSign()     + z2y1.toString(true)
+	+ z1y1.getSign(true) + z1y1.toString(true)
+	+ ")x <br />+ "
+	+ "("
+	+ z2x3.toString()
+	+ z1x3.getSign(true) + z1x3.toString(true)
+	+ z2x1.getSign(true) + z2x1.toString(true)
+	+ z1x1.getSign()     + z1x1.toString(true)
+	+ x2z3.getSign(true) + x2z3.toString(true)
+	+ x1z3.getSign()     + x1z3.toString(true)
+	+ x2z1.getSign()     + x2z1.toString(true)
+	+ x1z1.getSign(true) + x1z1.toString(true)
+	+ ")y <br />+ "
+	+ "("
+	+ x2y3.toString()
+	+ x1y3.getSign(true) + x1y3.toString(true)
+	+ x2y1.getSign(true) + x2y1.toString(true)
+	+ x1y1.getSign()     + x1y1.toString(true)
+	+ y2x3.getSign(true) + y2x3.toString(true)
+	+ y1x3.getSign()     + y1x3.toString(true)
+	+ y2x1.getSign()     + y2x1.toString(true)
+	+ y1x1.getSign(true) + y1x1.toString(true)
+	+ ")z <br />+ "
+	
+	
+	+ y2z3x1.toString()
+	+ y1z3x1.getSign()     + y1z3x1.toString(true)
+	+ y2z1x1.getSign()     + y2z1x1.toString(true)
+	+ y1z1x1.getSign(true) + y1z1x1.toString(true)
+	+ z2y3x1.getSign()     + z2y3x1.toString(true)
+	+ z1y3x1.getSign(true) + z1y3x1.toString(true)
+	+ z2y1x1.getSign(true) + z2y1x1.toString(true)
+	+ z1y1x1.getSign()     + z1y1x1.toString(true)
+	+ "<br />"
+	+ z2x3y1.getSign(true) + z2x3y1.toString(true)
+	+ z1x3y1.getSign()     + z1x3y1.toString(true)
+	+ z2x1y1.getSign()     + z2x1y1.toString(true)
+	+ z1x1y1.getSign(true) + z1x1y1.toString(true)
+	+ x2z3y1.getSign()     + x2z3y1.toString(true)
+	+ x1z3y1.getSign(true) + x1z3y1.toString(true)
+	+ x2z1y1.getSign(true) + x2z1y1.toString(true)
+	+ x1z1y1.getSign()     + x1z1y1.toString(true)
+	+ "<br />"
+	+ x2y3z1.getSign(true) + x2y3z1.toString(true)
+	+ x1y3z1.getSign()     + x1y3z1.toString(true)
+	+ x2y1z1.getSign()     + x2y1z1.toString(true)
+	+ x1y1z1.getSign(true) + x1y1z1.toString(true)
+	+ y2x3z1.getSign()     + y2x3z1.toString(true)
+	+ y1x3z1.getSign(true) + y1x3z1.toString(true)
+	+ y2x1z1.getSign(true) + y2x1z1.toString(true)
+	+ y1x1z1.getSign()     + y1x1z1.toString(true)
+	+ " = 0"
+	+ "</p>";
+	
 	/*
 	// Calculate some cool and new values
 	var x = (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1);
