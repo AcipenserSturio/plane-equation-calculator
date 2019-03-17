@@ -118,6 +118,22 @@ function calc() {
 	z_array = addRoots(z_array);
 	d_array = addRoots(d_array);
 	
+	// Find the greatest common divisor of every root in order to try and simplify.
+	var x_gcd = getGcdFromArray(x_array);
+	var y_gcd = getGcdFromArray(y_array);
+	var z_gcd = getGcdFromArray(z_array);
+	var d_gcd = getGcdFromArray(d_array);
+	var fullGcd = gcd_rec(gcd_rec(x_gcd, y_gcd), gcd_rec(z_gcd, d_gcd));
+	if (fullGcd != 1 && fullGcd != 0) {
+		var gcdRoot = toRoot(fullGcd);
+		
+		// Well, now let's try to simplify, eh.
+		x_array = reduceArray(x_array, fullGcd);
+		y_array = reduceArray(y_array, fullGcd);
+		z_array = reduceArray(z_array, fullGcd);
+		d_array = reduceArray(d_array, fullGcd);
+	}
+	
 	// Output the result.
 	document.getElementById("res2").innerHTML = "<p>"
 	+ "("
@@ -230,7 +246,7 @@ function addRoots(arr) {
 	var arrClean = [];
 	k = 0;
 	for (var i = 0; i < arrNew.length; i++) {
-		if (arrNew[i].whole != 0){
+		if (arrNew[i].whole != 0) {
 			arrClean[k] = arrNew[i];
 			k++;
 		}
@@ -239,6 +255,16 @@ function addRoots(arr) {
 		arrClean[0] = new Root(0, 0, 1); // I guess I'll allow just one zero object
 	} 
 	return arrClean;
+}
+
+// Reduces every root in the array by the gcd.
+function reduceArray(arr, gcd) {
+	// Divide every root by gcd
+	for (var i = 0; i < arr.length; i++) {
+		var temp = arr[i];
+		arr[i] = toRoot(Math.floor(temp.raw / gcd));
+	}
+	return arr;
 }
 
 // ~~ Create roots ~~
@@ -279,7 +305,7 @@ function rootArrayToString(arr) {
 	return rootArrayString;
 }
 
-// ~~ Math stuff ~~
+// ~~ GCD stuff ~~
 
 // Returns the greatest common divisor of two numbers. 
 // If one of the numbers is zero, it returns the other one
@@ -292,5 +318,23 @@ function gcd_rec(a, b) {
 		}
 	} else {
 		return a + b; // One of them is 0
+	}
+}
+
+function getGcdFromArray(arr) {
+	if (arr.length == 0) { 
+		// Welp, there isn't anything here 
+		// Actually, this should never be the case, but shh
+		return 0;
+	} else if (arr.length == 1) {
+		// Welp, there is one thing here
+		return Math.abs(arr[0].raw);
+	} else {
+		// Yay, some actual maths
+		var gcd = gcd_rec(Math.abs(arr[0].raw), Math.abs(arr[1].raw));
+		for (var i = 2; i < arr.length; i++) {
+			gcd = gcd_rec(gcd, Math.abs(arr[i].raw))
+		}
+		return gcd;
 	}
 }
