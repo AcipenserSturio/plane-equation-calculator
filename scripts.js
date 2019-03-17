@@ -1,180 +1,6 @@
-class Root {
-	constructor(sign, whole, irr) {
-		this.sign = sign;
-		this.whole = whole;
-		this.irr = irr;
-		this.raw = sign*whole*whole*irr;
-	}
-	toString(noSign) {
-		if (noSign) {
-			if (this.irr == 1) {
-				return this.whole;
-			} else if (this.whole == 1) {
-				return "√" + this.irr;
-			} else {
-				return this.whole + "√" + this.irr;
-			}
-		} else {
-
-			if (this.sign == -1) {
-				var signStr = "-";
-			} else {
-				var signStr = "";
-			}
-			
-			if (this.irr == 1) {
-				return signStr + this.whole;
-			} else if (this.whole == 1) {
-				return signStr + "√" + this.irr;
-			} else {
-				return signStr + this.whole + "√" + this.irr;
-			}
-		}
-	}
-	getSign(reverse) {
-		if (reverse) {
-			if (this.sign == -1) {
-				return "&nbsp;+&nbsp;";
-			} else {
-				return "&nbsp;-&nbsp;";
-			}
-		} else {
-			if (this.sign == -1) {
-				return "&nbsp;-&nbsp;";
-			} else {
-				return "&nbsp;+&nbsp;";
-			}
-		}
-	}
-}
-
-function multiply(a, b) {
-	return toRoot(a.raw * b.raw);
-}
-
-function swapSign(a) {
-	a.sign = a.sign * -1;
-	return a;
-}
-
-function gcd_rec(a, b) {
-	if (a != 0 && b != 0) {
-		if (b) {
-			return gcd_rec(b, a % b);
-		} else {
-			return Math.abs(a);
-		}
-	} else {
-		return a + b; // One of them is 0
-	}
-}
-
-function rootOrNumber(a, isRoot) {
-	if(isRoot) {
-		return toRoot(a);
-	} else {
-		return new Root(Math.sign(a), Math.abs(a), 1);
-	}
-}
-
-function toRoot(a) {
-	var sign = Math.sign(a);
-	a = Math.abs(a);
-	if (a == 0) {
-		return new Root(0, 0, 1);
-	} else {
-		for (var i = Math.ceil(Math.sqrt(a)); i > 0; i--) {
-			if (a % (i*i) == 0) {
-				return new Root(sign, i, a / (i*i));
-			}
-		}
-	}
-}
-
-function calcsum() {
-	// Get input from HTML
-	var x1_whole = Number(document.getElementById("n1").value);
-	var x1_irrat = Number(document.getElementById("n2").value);
-	var x2_whole = Number(document.getElementById("n3").value);
-	var x2_irrat = Number(document.getElementById("n4").value);
-	var x3_whole = Number(document.getElementById("n5").value);
-	var x3_irrat = Number(document.getElementById("n6").value);
-	
-	var x1_sign = document.getElementById("r1").checked;
-	var x2_sign = document.getElementById("r2").checked;
-	var x3_sign = document.getElementById("r3").checked;
-	
-	if (x1_sign) {
-		var r1 = new Root(-1, x1_whole, x1_irrat);
-	} else {
-		var r1 = new Root(1, x1_whole, x1_irrat);
-	}
-	if (x2_sign) {
-		var r2 = new Root(-1, x2_whole, x2_irrat);
-	} else {
-		var r2 = new Root(1, x2_whole, x2_irrat);
-	}
-	if (x3_sign) {
-		var r3 = new Root(-1, x3_whole, x3_irrat);
-	} else {
-		var r3 = new Root(1, x3_whole, x3_irrat);
-	}
-	
-	var root1 = toRoot(r1.raw);
-	var root2 = toRoot(r2.raw);
-	var root3 = toRoot(r3.raw);
-	
-	var rootArray = [root1, root2, root3];
-	rootArray = addRoots(rootArray);
-	
-	var rootArrayString = rootArray[0].toString();
-	for (i = 1; i < rootArray.length; i++) {
-		rootArrayString = rootArrayString + rootArray[i].getSign() + rootArray[i].toString(true);
-	}
-	
-	document.getElementById("res1").innerHTML = "<p>Сумма " + rootArrayString + "</p>";
-	
-	
-}
-
-function addRoots(arr) {
-	
-	// Sort the array first
-	for (var i = 0; i < arr.length; i++) {
-		for (var j = 0; j < arr.length - i - 1; j++) {
-			if (arr[j].irr > arr[j+1].irr) {
-				var temp = arr[j];
-				arr[j] = arr[j+1];
-				arr[j+1] = temp;
-			}
-		}
-	}
-	
-	// Then add the elements with the same root
-	var arrNew = [];
-	arrNew[0] = arr[0];
-	var k = 0;
-	for (var i = 1; i < arr.length; i++) {
-		if (arr[i-1].irr != arr[i].irr) {
-			k++;
-			arrNew[k] = arr[i];
-		} else {
-			var whole = arrNew[k].sign * arrNew[k].whole + arr[i].sign * arr[i].whole;
-			arrNew[k] = new Root(Math.sign(whole), Math.abs(whole), arr[i].irr);
-		}
-	}
-	return arrNew;
-}
-
-function rootArrayToString(arr) {
-	var rootArrayString = arr[0].toString();
-	for (i = 1; i < arr.length; i++) {
-		rootArrayString = rootArrayString + arr[i].getSign() + arr[i].toString(true);
-	}
-	return rootArrayString;
-}
-
+// Main program
 function calc() {
+	
 	// Get input from HTML
 	var x1 = Number(document.getElementById("n1").value);
 	var y1 = Number(document.getElementById("n2").value);
@@ -196,6 +22,7 @@ function calc() {
 	var y3_root = document.getElementById("r8").checked;
 	var z3_root = document.getElementById("r9").checked;
 	
+	// Create root objects based on the inputs
 	var x1_obj = rootOrNumber(x1, x1_root);
 	var y1_obj = rootOrNumber(y1, y1_root);
 	var z1_obj = rootOrNumber(z1, z1_root);
@@ -206,6 +33,7 @@ function calc() {
 	var y3_obj = rootOrNumber(y3, y3_root);
 	var z3_obj = rootOrNumber(z3, z3_root);
 	
+	// Output the three points
 	var a_pt = "A(" 
 	+ x1_obj.toString() + ";&nbsp;" 
 	+ y1_obj.toString() + ";&nbsp;" 
@@ -220,27 +48,10 @@ function calc() {
 	+ z3_obj.toString() + ")";
 	
 	document.getElementById("res1").innerHTML = "<p>При " + a_pt + ", " + b_pt + ", " + c_pt + ":</p>";
-	/*document.getElementById("res2").innerHTML = "<p>"
-	+ "(("
-	+ y2_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ")(" 
-	+ z3_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ") - (" 
-	+ z2_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ")(" 
-	+ y3_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + "))(x"
-	+ x1_obj.getSign(true) + x1_obj.toString(true) 
-	+ ") +<br />+ " + "(("
-	+ z2_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + ")(" 
-	+ x3_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + ") - (" 
-	+ x2_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + ")(" 
-	+ z3_obj.toString() + z1_obj.getSign(true) + z1_obj.toString(true) + "))(y"
-	+ y1_obj.getSign(true) + y1_obj.toString(true)
-	+ ") +<br />+ " + "(("
-	+ x2_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + ")(" 
-	+ y3_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ") - (" 
-	+ y2_obj.toString() + y1_obj.getSign(true) + y1_obj.toString(true) + ")(" 
-	+ x3_obj.toString() + x1_obj.getSign(true) + x1_obj.toString(true) + "))(z"
-	+ z1_obj.getSign(true) + z1_obj.toString(true) + ")" 
-	+ " = 0</p>";*/
 
+	// Open the brackets by multiplying freaking everything. 
+	// Create the roots for the new multiplied thingies.
+	// Some of them are positive, some are negative.
 	var y2z3 = multiply(y2_obj, z3_obj);
 	var y1z3 = swapSign(multiply(y1_obj, z3_obj));
 	var y2z1 = swapSign(multiply(y2_obj, z1_obj));
@@ -295,15 +106,19 @@ function calc() {
 	var y2x1z1 = swapSign(multiply(y2x1, z1_obj));
 	var y1x1z1 = multiply(y1x1, z1_obj);
 	
+	// Arrange the roots into four arrays: x, y, z, d.
 	var x_array = [y2z3, y1z3, y2z1, y1z1, z2y3, z1y3, z2y1, z1y1];
 	var y_array = [z2x3, z1x3, z2x1, z1x1, x2z3, x1z3, x2z1, x1z1];
 	var z_array = [x2y3, x1y3, x2y1, x1y1, y2x3, y1x3, y2x1, y1x1];
 	var d_array = [y2z3x1, y1z3x1, y2z1x1, y1z1x1, z2y3x1, z1y3x1, z2y1x1, z1y1x1, z2x3y1, z1x3y1, z2x1y1, z1x1y1, x2z3y1, x1z3y1, x2z1y1, x1z1y1, x2y3z1, x1y3z1, x2y1z1, x1y1z1, y2x3z1, y1x3z1, y2x1z1, y1x1z1];
+	
+	// Try to add them up.
 	x_array = addRoots(x_array);
 	y_array = addRoots(y_array);
 	z_array = addRoots(z_array);
 	d_array = addRoots(d_array);
 	
+	// Output the result.
 	document.getElementById("res2").innerHTML = "<p>"
 	+ "("
 	+ rootArrayToString(x_array)
@@ -317,82 +132,165 @@ function calc() {
 	+ rootArrayToString(d_array)
 	+ ") = 0"
 	+ "</p>";
+}
+
+// This is a class that stores a "root object": A mathematical expression in the form of ± a √ b.
+class Root {
+	constructor(sign, whole, irr) {
+		this.sign = sign;
+		this.whole = whole;
+		this.irr = irr;
+		this.raw = sign*whole*whole*irr;
+	}
+	toString(noSign) {
+		if (noSign) {
+			if (this.irr == 1) {
+				return this.whole;
+			} else if (this.whole == 1) {
+				return "√" + this.irr;
+			} else {
+				return this.whole + "√" + this.irr;
+			}
+		} else {
+
+			if (this.sign == -1) {
+				var signStr = "-";
+			} else {
+				var signStr = "";
+			}
+			
+			if (this.irr == 1) {
+				return signStr + this.whole;
+			} else if (this.whole == 1) {
+				return signStr + "√" + this.irr;
+			} else {
+				return signStr + this.whole + "√" + this.irr;
+			}
+		}
+	}
+	getSign(reverse) {
+		if (reverse) {
+			if (this.sign == -1) {
+				return "&nbsp;+&nbsp;";
+			} else {
+				return "&nbsp;-&nbsp;";
+			}
+		} else {
+			if (this.sign == -1) {
+				return "&nbsp;-&nbsp;";
+			} else {
+				return "&nbsp;+&nbsp;";
+			}
+		}
+	}
+}
+
+// ~~ Actions with roots ~~
+
+// Returns the same root, but multiplied by -1
+function swapSign(a) {
+	a.sign = a.sign * -1;
+	return a;
+}
+
+// Returns the root you get by multiplying two other roots
+function multiply(a, b) {
+	return toRoot(a.raw * b.raw);
+}
+
+// Takes an array of roots and adds them up where possible.
+function addRoots(arr) {
 	
+	// Sort the array first
+	for (var i = 0; i < arr.length; i++) {
+		for (var j = 0; j < arr.length - i - 1; j++) {
+			if (arr[j].irr > arr[j+1].irr) {
+				var temp = arr[j];
+				arr[j] = arr[j+1];
+				arr[j+1] = temp;
+			}
+		}
+	}
 	
+	// Then add the elements with the same root
+	var arrNew = [];
+	arrNew[0] = arr[0];
+	var k = 0;
+	for (var i = 1; i < arr.length; i++) {
+		if (arr[i-1].irr != arr[i].irr) {
+			k++;
+			arrNew[k] = arr[i];
+		} else {
+			var whole = arrNew[k].sign * arrNew[k].whole + arr[i].sign * arr[i].whole;
+			arrNew[k] = new Root(Math.sign(whole), Math.abs(whole), arr[i].irr);
+		}
+	}
 	
-	
-	/*document.getElementById("res3").innerHTML = "<p>"
-	+ ""
-	+ rootArrayToString(x_array);
-	+ "x "
-	+ rootArrayToString(y_array);
-	+ "y "
-	+ rootArrayToString(z_array);
-	+ "z "
-	+ rootArrayToString(d_array);
-	+ "</p>";*/
-	/*
-	document.getElementById("res3").innerHTML = "<p>"
-	+ "("
-	+ y2z3.toString()
-	+ y1z3.getSign() + y1z3.toString(true)
-	+ y2z1.getSign() + y2z1.toString(true)
-	+ y1z1.getSign() + y1z1.toString(true)
-	+ z2y3.getSign() + z2y3.toString(true)
-	+ z1y3.getSign() + z1y3.toString(true)
-	+ z2y1.getSign() + z2y1.toString(true)
-	+ z1y1.getSign() + z1y1.toString(true)
-	+ ")x <br />+ "
-	+ "("
-	+ z2x3.toString()
-	+ z1x3.getSign() + z1x3.toString(true)
-	+ z2x1.getSign() + z2x1.toString(true)
-	+ z1x1.getSign() + z1x1.toString(true)
-	+ x2z3.getSign() + x2z3.toString(true)
-	+ x1z3.getSign() + x1z3.toString(true)
-	+ x2z1.getSign() + x2z1.toString(true)
-	+ x1z1.getSign() + x1z1.toString(true)
-	+ ")y <br />+ "
-	+ "("
-	+ x2y3.toString()
-	+ x1y3.getSign() + x1y3.toString(true)
-	+ x2y1.getSign() + x2y1.toString(true)
-	+ x1y1.getSign() + x1y1.toString(true)
-	+ y2x3.getSign() + y2x3.toString(true)
-	+ y1x3.getSign() + y1x3.toString(true)
-	+ y2x1.getSign() + y2x1.toString(true)
-	+ y1x1.getSign() + y1x1.toString(true)
-	+ ")z <br /> "
-	
-	
-	+ y2z3x1.getSign() + y2z3x1.toString(true)
-	+ y1z3x1.getSign() + y1z3x1.toString(true)
-	+ y2z1x1.getSign() + y2z1x1.toString(true)
-	+ y1z1x1.getSign() + y1z1x1.toString(true)
-	+ z2y3x1.getSign() + z2y3x1.toString(true)
-	+ z1y3x1.getSign() + z1y3x1.toString(true)
-	+ z2y1x1.getSign() + z2y1x1.toString(true)
-	+ z1y1x1.getSign() + z1y1x1.toString(true)
-	+ "<br />"
-	+ z2x3y1.getSign() + z2x3y1.toString(true)
-	+ z1x3y1.getSign() + z1x3y1.toString(true)
-	+ z2x1y1.getSign() + z2x1y1.toString(true)
-	+ z1x1y1.getSign() + z1x1y1.toString(true)
-	+ x2z3y1.getSign() + x2z3y1.toString(true)
-	+ x1z3y1.getSign() + x1z3y1.toString(true)
-	+ x2z1y1.getSign() + x2z1y1.toString(true)
-	+ x1z1y1.getSign() + x1z1y1.toString(true)
-	+ "<br />"
-	+ x2y3z1.getSign() + x2y3z1.toString(true)
-	+ x1y3z1.getSign() + x1y3z1.toString(true)
-	+ x2y1z1.getSign() + x2y1z1.toString(true)
-	+ x1y1z1.getSign() + x1y1z1.toString(true)
-	+ y2x3z1.getSign() + y2x3z1.toString(true)
-	+ y1x3z1.getSign() + y1x3z1.toString(true)
-	+ y2x1z1.getSign() + y2x1z1.toString(true)
-	+ y1x1z1.getSign() + y1x1z1.toString(true)
-	+ " = 0"
-	+ "</p>";*/
-	
-	
+	// And remove the "zero" elements
+	var arrClean = [];
+	k = 0;
+	for (var i = 0; i < arrNew.length; i++) {
+		if (arrNew[i].whole != 0){
+			arrClean[k] = arrNew[i];
+			k++;
+		}
+	}
+	if (arrClean.length == 0) { // Whoops, the entire array is zero
+		arrClean[0] = new Root(0, 0, 1); // I guess I'll allow just one zero object
+	} 
+	return arrClean;
+}
+
+// ~~ Create roots ~~
+
+// Creates the root object based on the given value. 
+// The boolean determines whether the input is under the square root or not
+function rootOrNumber(a, isRoot) {
+	if(isRoot) {
+		return toRoot(a);
+	} else {
+		return new Root(Math.sign(a), Math.abs(a), 1);
+	}
+}
+
+// Creates the root object from (raw) number.
+function toRoot(a) {
+	var sign = Math.sign(a);
+	a = Math.abs(a);
+	if (a == 0) {
+		return new Root(0, 0, 1);
+	} else {
+		for (var i = Math.ceil(Math.sqrt(a)); i > 0; i--) {
+			if (a % (i*i) == 0) {
+				return new Root(sign, i, a / (i*i));
+			}
+		}
+	}
+}
+
+// ~~ Create output ~~
+
+// Creates an output string based on the array of roots.
+function rootArrayToString(arr) {
+	var rootArrayString = arr[0].toString();
+	for (i = 1; i < arr.length; i++) {
+		rootArrayString = rootArrayString + arr[i].getSign() + arr[i].toString(true);
+	}
+	return rootArrayString;
+}
+
+// ~~ Math stuff ~~
+
+// Returns the greatest common divisor of two numbers. 
+// If one of the numbers is zero, it returns the other one
+function gcd_rec(a, b) { 
+	if (a != 0 && b != 0) {
+		if (b) {
+			return gcd_rec(b, a % b);
+		} else {
+			return Math.abs(a);
+		}
+	} else {
+		return a + b; // One of them is 0
+	}
 }
