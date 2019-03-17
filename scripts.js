@@ -214,10 +214,8 @@ function multiply(a, b) {
 	return toRoot(a.raw * b.raw);
 }
 
-// Takes an array of roots and adds them up where possible.
-function addRoots(arr) {
-	
-	// Sort the array first
+// Sorts the array by the irrational part of the root object.
+function sortRoots(arr) {
 	for (var i = 0; i < arr.length; i++) {
 		for (var j = 0; j < arr.length - i - 1; j++) {
 			if (arr[j].irr > arr[j+1].irr) {
@@ -227,6 +225,13 @@ function addRoots(arr) {
 			}
 		}
 	}
+	return arr;
+}
+
+// Takes an array of roots and adds them up where possible.
+function addRoots(arr) {
+	// Sort the array first
+	arr = sortRoots(arr);
 	
 	// Then add the elements with the same root
 	var arrNew = [];
@@ -264,6 +269,8 @@ function reduceArray(arr, gcd) {
 		var temp = arr[i];
 		arr[i] = toRoot(Math.floor(temp.raw / gcd));
 	}
+	// Then sort the array, because the order might have been broken.
+	arr = sortRoots(arr);
 	return arr;
 }
 
