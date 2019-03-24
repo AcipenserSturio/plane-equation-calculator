@@ -157,6 +157,19 @@ function calc() {
 	var y3_obj_denom = toRoot(y3_denom.raw);
 	var z3_obj_denom = toRoot(z3_denom.raw);
 	
+	// Output the points back into the page
+	
+	document.getElementById("points").innerHTML = "При А("
+	+ getFractionFromRoots(x1_obj_numer, x1_obj_denom) + "; "
+	+ getFractionFromRoots(y1_obj_numer, y1_obj_denom) + "; "
+	+ getFractionFromRoots(z1_obj_numer, z1_obj_denom) + "), B("
+	+ getFractionFromRoots(x2_obj_numer, x2_obj_denom) + "; "
+	+ getFractionFromRoots(y2_obj_numer, y2_obj_denom) + "; "
+	+ getFractionFromRoots(z2_obj_numer, z2_obj_denom) + "), C("
+	+ getFractionFromRoots(x3_obj_numer, x3_obj_denom) + "; "
+	+ getFractionFromRoots(y3_obj_numer, y3_obj_denom) + "; "
+	+ getFractionFromRoots(z3_obj_numer, z3_obj_denom) + "):"
+	
 	// Get lcm from all of the denominators, in order to eventually get rid of them
 	
 	var denom_array = [x1_denom, y1_denom, z1_denom, x2_denom, y2_denom, z2_denom, x3_denom, y3_denom, z3_denom];
@@ -430,6 +443,17 @@ function rootArrayToString(arr) {
 		rootArrayString = rootArrayString + arr[i].getSign() + arr[i].toString(true);
 	}
 	return rootArrayString;
+}
+
+// Creates an output HTML string, representing a fraction or a/b.
+function getFractionFromRoots(a, b) {
+	if (b.raw == 1) {
+		return a.toString();
+	} else {
+		return "<div class=\"frac\"><span>"
+		+ a.toString() + "</span><span class=\"symbol\"></span><span class=\"bottom\">" 
+		+ b.toString() + "</span></div>";
+	}
 }
 
 // ~~ GCD stuff ~~
