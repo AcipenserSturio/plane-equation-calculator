@@ -10,6 +10,7 @@ table, td {
   vertical-align: middle;
   font-family: Verdana, "Lucida Sans Unicode", sans-serif;
   font-size: 30px;
+  border-collapse: collapse;
 }
 input {
   text-align: center;
@@ -41,3 +42,6 @@ h1 {
 .frac span.symbol {
     display: none;
 } 
+.numerator {
+	border-bottom: 5px solid black;
+}
