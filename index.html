@@ -10,67 +10,83 @@
 		<h1>УРАВНЕНИЕ ПЛОСКОСТИ. КАЛЬКУЛЯТОР</h1>
 		<p>Введите значения и знак чисел:</p>
 		<table align="center">
-			<tr><td>
-				A (
-				<input id="n1" type="number" autocomplete="off" onkeyup="calc()"></input>
-				, 
-				<input id="n2" type="number" autocomplete="off" onkeyup="calc()"></input>
-				, 
-				<input id="n3" type="number" autocomplete="off" onkeyup="calc()"></input>
-				 )
-			</td></tr>
-			<tr><td>
-				B (
-				<input id="n4" type="number" autocomplete="off" onkeyup="calc()"></input>
-				, 
-				<input id="n5" type="number" autocomplete="off" onkeyup="calc()"></input>
-				, 
-				<input id="n6" type="number" autocomplete="off" onkeyup="calc()"></input>
-				 )
-			</td></tr>
-			<tr><td>
-				C (
-				<input id="n7" type="number" autocomplete="off" onkeyup="calc()"></input>
-				, 
-				<input id="n8" type="number" autocomplete="off" onkeyup="calc()"></input>
-				, 
-				<input id="n9" type="number" autocomplete="off" onkeyup="calc()"></input>
-				 )
-			</td></tr>
-		</table>
-		<p>Выберите числа под корнем:</p>
-		<table align="center">
-			<tr><td>
-				A (
-				<input id="r1" type="checkbox" onclick="calc()"></input>
-				, 
-				<input id="r2" type="checkbox" onclick="calc()"></input>
-				, 
-				<input id="r3" type="checkbox" onclick="calc()"></input>
-				 )
-			</td></tr>
-			<tr><td>
-				B (
-				<input id="r4" type="checkbox" onclick="calc()"></input>
-				, 
-				<input id="r5" type="checkbox" onclick="calc()"></input>
-				, 
-				<input id="r6" type="checkbox" onclick="calc()"></input>
-				 )
-			</td></tr>
-			<tr><td>
-				C (
-				<input id="r7" type="checkbox" onclick="calc()"></input>
-				, 
-				<input id="r8" type="checkbox" onclick="calc()"></input>
-				, 
-				<input id="r9" type="checkbox" onclick="calc()"></input>
-				 )
-			</td></tr>
+			<tr>
+				<td rowspan="2" class="big">A&nbsp;</td>
+				<td rowspan="2" class="big bracket">(</td>
+				<td><input id="in01" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in02" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big">;&nbsp;</td>
+				<td><input id="in03" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in04" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big">;&nbsp;</td>
+				<td><input id="in05" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in06" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big bracket">)</td>
+			</tr>
+			<tr>
+				<td><input id="in07" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in08" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in09" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in10" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in11" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in12" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+			</tr>
+			<tr class="split"></tr>
+			<tr>
+				<td rowspan="2" class="big">B&nbsp;</td>
+				<td rowspan="2" class="big bracket">(</td>
+				<td><input id="in13" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in14" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big">;&nbsp;</td>
+				<td><input id="in15" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in16" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big">;&nbsp;</td>
+				<td><input id="in17" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in18" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big bracket">)</td>
+			</tr>
+			<tr>
+				<td><input id="in19" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in20" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in21" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in22" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in23" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in24" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+			</tr>
+			<tr class="split"></tr>
+			<tr>
+				<td rowspan="2" class="big">C&nbsp;</td>
+				<td rowspan="2" class="big bracket">(</td>
+				<td><input id="in25" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in26" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big">;&nbsp;</td>
+				<td><input id="in27" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in28" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big">;&nbsp;</td>
+				<td><input id="in29" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="squareroot">&nbsp;√&nbsp;</td>
+				<td><input id="in30" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td rowspan="2" class="big bracket">)</td>
+			</tr>
+			<tr>
+				<td><input id="in31" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in32" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in33" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in34" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in35" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+				<td><input id="in36" type="number" autocomplete="off" placeholder="1" onkeyup="calc()"></input></td>
+			</tr>
 		</table>
 		<div>
-			<div id="res1"><p>При A(0;&nbsp;0;&nbsp;0), B(0;&nbsp;0;&nbsp;0), C(0;&nbsp;0;&nbsp;0):</p></div>
-			<div id="res2"><p></p></div>
+			<div id="result"><p></p></div>
 		</div>
 	</body>
 </html>
